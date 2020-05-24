@@ -17,7 +17,7 @@ M190 S{material_bed_temperature_layer_0} ;Wait for bed to reach temp before proc
 G28 Z  ;Home Z
 
 M117 Heating Extruder...
-M104 S{material_initial_print_temperature} ;Wait for extruder to reach temp before proceeding
+M104 S{material_print_temperature_layer_0} ;Start heating to initial print temp (non-blocking)
 G1 Z10 ; raise a bit to clear corner clips
 G1 F1500 X1 ;move to actual zero of bed
 G92 X0      ;re-zero X
@@ -27,17 +27,16 @@ M83 ; Extruder to relative
 G1 F2400 E{retraction_amount}
 G1 F2400 E{retraction_amount}
 
-M109 S{material_initial_print_temperature} ;Wait for extruder to reach temp before proceeding
+M109 S{material_print_temperature_layer_0} ;Wait for extruder to reach temp before proceeding
 ; Descend and "wiggle" to have the ooze clear the bed
-G1 F2400 E0.25 X100 Z40
-G1 F2400 E0.25 X20 Z30
-G1 F2400 E0.25 X100 Z20
-G1 F2400 E0.25 X20 Z10
-G1 F2400 E0.25 X100 Z5
-G1 F1200 X50 Z0.1 E-{retraction_amount}
-; wipe ozze off on edge of buildplate
-G1 F600 Y3
-G92 Y0      ;re-zero Y
-G1 F2400 Y3 Z1
+G1 F2400 E0.5 X100 Z40
+G1 F2400 E0.5 X50 Z20
+G1 F2400 E0.5 X100 Z1
+G1 F600 X50 Z0.05 E-2
 G92 E0    ;re-zero extruder
 M82 ; Extruder to absolute
+
+; wipe ozze off on edge of buildplate
+G1 F200 Y3
+G92 Y0      ;re-zero Y
+G1 F2400 Y3 Z1

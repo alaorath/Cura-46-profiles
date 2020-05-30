@@ -1,0 +1,33 @@
+{
+    "name": "Creality Ender-3 Pro",
+    "version": 2,
+    "inherits": "creality_base",
+    "metadata": {
+        "quality_definition": "creality_base",
+        "visible": true,
+        "platform": "creawsome_ender3_printerhd.stl",
+        "platform_offset": [ -160, 0, 140]
+    },
+    "overrides": {
+        "machine_name": { "default_value": "Creality Ender-3 Pro" },
+        "machine_width": { "default_value": 235 },
+        "machine_depth": { "default_value": 235 },
+        "machine_height": { "default_value": 250 },
+        "machine_head_with_fans_polygon": { "default_value": [
+                [-26, 34],
+                [-26, -32],
+                [32, -32],
+                [32, 34]
+            ]
+        },
+        "machine_start_gcode": {
+            "default_value": "; Ender 3 Custom Start G-code\n; updated 2020-04-24\n\nM140 S{material_bed_temperature_layer_0} ;Start heating bed (non-blocking)\nM104 S{material_standby_temperature} ;Start heating extruder for priming (non-blocking)\n\nM220 S100 ;Reset Feedrate\nM221 S100 ;Reset Flowrate\n\nG90 ;Absolute positionning\nG28 X Y ;Home XY only\nM84 E ; disable just the stepper motor (to allow for manual priming)\n\nM109 S{material_standby_temperature} ; wait for extruder to reach minimum temp\nM190 S{material_bed_temperature_layer_0} ;Wait for bed to reach temp before proceeding\n\nG28 Z  ;Home Z\n\nM117 Heating Extruder...\nM104 S{material_print_temperature_layer_0} ;Start heating to initial print temp (non-blocking)\nG1 Z10 ; raise a bit to clear corner clips\nG1 F1500 X1 ;move to actual zero of bed\nG92 X0      ;re-zero X\nG1 F2400 X20 Z50  ; raise high to allow for ooze (and manual nozzle wiping)\n\nM83 ; Extruder to relative\nG1 F2400 E{retraction_amount}\nG1 F2400 E{retraction_amount}\n\nM109 S{material_print_temperature_layer_0} ;Wait for extruder to reach temp before proceeding\n; Descend and "wiggle" to have the ooze clear the bed\nG1 F2400 E0.5 X100 Z40\nG1 F2400 E0.5 X50 Z20\nG1 F2400 E0.5 X100 Z1\nG1 F600 X50 Z0.05 E-2\nG92 E0    ;re-zero extruder\nM82 ; Extruder to absolute\n\n; wipe ozze off on edge of buildplate\nG1 F200 Y3\nG92 Y0      ;re-zero Y\nG1 F2400 Y3 Z1"
+        },
+
+        "machine_end_gcode": {
+            "default_value": "G91 ;Relative positioning\nG1 E-2 F2700 ;Retract a bit\nG1 E-{retraction_amount} Z0.2 F2400 ;Retract and raise Z\nG1 Z10 ;Raise Z more\nG90 ;Absolute positionning\n\nG1 F3000 X10 Y200	; present print\n\nM106 S0 ;Turn-off fan\nM104 S0 ;Turn-off hotend\nM140 S0 ;Turn-off bed\n\nM84 ;Disable all steppers"
+        },
+
+        "gantry_height": { "value": 25 }
+    }
+}

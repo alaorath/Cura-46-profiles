@@ -24,8 +24,8 @@ G92 X0      ;re-zero X
 G1 F2400 X20 Z50  ; raise high to allow for ooze (and manual nozzle wiping)
 
 M83 ; Extruder to relative
-G1 F2400 E{retraction_amount}
-G1 F2400 E{retraction_amount}
+G1 F600 E{retraction_amount}
+G1 F600 E{retraction_amount}
 
 M109 S{material_print_temperature_layer_0} ;Wait for extruder to reach temp before proceeding
 ; Descend and "wiggle" to have the ooze clear the bed

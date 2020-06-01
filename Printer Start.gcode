@@ -29,14 +29,14 @@ G1 F600 E{retraction_amount}
 
 M109 S{material_print_temperature_layer_0} ;Wait for extruder to reach temp before proceeding
 ; Descend and "wiggle" to have the ooze clear the bed
-G1 F2400 E0.5 X100 Z40
-G1 F2400 E0.5 X50 Z20
-G1 F2400 E0.5 X100 Z1
-G1 F600 X50 Z0.05 E-2
+G1 F2400 E0.5 X50 Z40
+G1 F2400 E0.5 X100 Z20
+G1 F2400 E0.5 X50 Z1
+G1 F600 Z0.05 E-2
 G92 E0    ;re-zero extruder
 M82 ; Extruder to absolute
 
-; wipe ozze off on edge of buildplate
+; wipe ooze off on edge of buildplate
 G1 F200 Y3
 G92 Y0      ;re-zero Y
 G1 F2400 Y3 Z1
